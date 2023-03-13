@@ -6,38 +6,40 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class CiudadesDao {
 
-    public static ArrayList<Ciudad> obtenerListadoCiudades() {
-        String sql = "SELECT * FROM CITY";
-        ArrayList<Ciudad> listaCiudades = new ArrayList<>();
-        Ciudad c;
+    public static ArrayList<Ciudad> obtenerListadoCiudades() throws SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
         try {
-            PreparedStatement ps;
-            ResultSet rs;
-            try (Connection conexion = ConexionMysql.obtenerConexion()) {
-                ps = conexion.prepareStatement(sql);
-                rs = ps.executeQuery();
-                while (rs.next()) {
-                    c = new Ciudad();
-                    c.setId(rs.getLong("ID"));
-                    c.setNombre(rs.getString("Name"));
-                    c.setCodigoPais(rs.getString("CountryCode"));
-                    c.setDistrito(rs.getString("District"));
-                    c.setPoblacion(rs.getInt("Population"));
-                    listaCiudades.add(c);
-                }
-            }
-            ps.close();
-            rs.close();
 
+            @SuppressWarnings("UnusedAssignment")
+            Ciudad c = null;
+            ArrayList<Ciudad> ciudades = new ArrayList<>();
+
+            conn = Conexion.getConnection();
+            stmt = conn.prepareStatement("SELECT * FROM city");
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                c = new Ciudad();
+                c.setId(rs.getInt("id"));
+                c.setNombre(rs.getString("name"));
+                c.setCodigoPais(rs.getString("countrycode"));
+                c.setPoblacion(rs.getInt("population"));
+                c.setDistrito(rs.getString("district"));
+                ciudades.add(c);
+            }
+            return ciudades;
         } catch (SQLException ex) {
-            Logger.getLogger(CiudadesDao.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error al obtener los datos");
+            return null;
+        } finally {
+            Conexion.close(rs);
+            Conexion.close(stmt);
+            Conexion.close(conn);
         }
-        return listaCiudades;
 
     }
 

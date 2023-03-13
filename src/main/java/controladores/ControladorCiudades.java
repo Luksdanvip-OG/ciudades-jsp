@@ -5,9 +5,11 @@
 package controladores;
 
 import datos.CiudadesDao;
-import entidades.Ciudad;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,18 +18,21 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "ControladorCiudades", urlPatterns = {"/ControladorCiudades"})
 public class ControladorCiudades extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Aqui devolveremos las ciudades
-        System.out.println("Entramos en el do get");
-        ArrayList<Ciudad> listaCiudades = CiudadesDao.obtenerListadoCiudades();
-        
-        request.setAttribute("ciudades", listaCiudades);
-       
-        response.sendRedirect(request.getContextPath() + "/paginas/home.jsp");
+        ArrayList ciudades;
+
+        try {
+            ciudades = CiudadesDao.obtenerListadoCiudades();
+            request.setAttribute("ciudades", ciudades);
+        } catch (SQLException ex) {
+            Logger.getLogger(ControladorCiudades.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        request.getRequestDispatcher("/paginas/home.jsp").forward(request, response);
+
     }
-
-
 
 }

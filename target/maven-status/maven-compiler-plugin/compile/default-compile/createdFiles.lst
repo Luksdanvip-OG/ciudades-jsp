@@ -1,5 +1,5 @@
 controladores\ControladorCiudades.class
-datos\ConexionMysql.class
+datos\Conexion.class
 entidades\Ciudad.class
 com\lucasbarberis\ciudades\resources\JavaEE8Resource.class
 datos\CiudadesDao.class

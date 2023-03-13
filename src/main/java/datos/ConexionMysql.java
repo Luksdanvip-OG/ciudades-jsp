@@ -6,28 +6,27 @@ package datos;
 
 import configuracion.PropiedadesConexion;
 import java.sql.*;
-import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
-
 import javax.sql.DataSource;
 
-/**
- *
- * @author Luksdanvip
- */
 public class ConexionMysql {
 
-    public static DataSource obtenerDataSource(){
+    public static DataSource obtenerDataSource() {
         BasicDataSource ds = new BasicDataSource();
+        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
         ds.setUrl(PropiedadesConexion.JDBC_URL);
         ds.setUsername(PropiedadesConexion.JDBC_USER);
         ds.setPassword(PropiedadesConexion.JDBC_PASSWORD);
-        ds.setInitialSize(50);
+        ds.setInitialSize(2);
+        ds.setMinIdle(2);
+        ds.setMaxIdle(4);
+        ds.setMaxTotal(4);
+        ds.setMaxWaitMillis(10000);
         return ds;
     }
-    
-    public static Connection obtenerConexion() throws SQLException{
+
+    public static Connection obtenerConexion() throws SQLException {
         return obtenerDataSource().getConnection();
     }
-    
+
 }

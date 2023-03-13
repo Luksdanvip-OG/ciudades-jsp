@@ -1,2 +1,7 @@
-com\lucasbarberis\ciudades\JAXRSConfiguration.class
+controladores\ControladorCiudades.class
+datos\ConexionMysql.class
+entidades\Ciudad.class
 com\lucasbarberis\ciudades\resources\JavaEE8Resource.class
+datos\CiudadesDao.class
+com\lucasbarberis\ciudades\JAXRSConfiguration.class
+configuracion\PropiedadesConexion.class

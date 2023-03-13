@@ -4,7 +4,10 @@
  */
 package controladores;
 
+import datos.CiudadesDao;
+import entidades.Ciudad;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +21,10 @@ public class ControladorCiudades extends HttpServlet {
             throws ServletException, IOException {
         //Aqui devolveremos las ciudades
         System.out.println("Entramos en el do get");
+        ArrayList<Ciudad> listaCiudades = CiudadesDao.obtenerListadoCiudades();
+        
+        request.setAttribute("ciudades", listaCiudades);
+       
         response.sendRedirect(request.getContextPath() + "/paginas/home.jsp");
     }
 
